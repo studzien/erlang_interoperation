@@ -44,13 +44,16 @@ init([]) ->
     Port = erlang:open_port({spawn, port_path()}, [binary, {packet, 2}]),
     {ok, #{port => Port}}.
 
-handle_call(Request, _From, State) ->
-    Response = port_request(Request, State),
-    {reply, Response, State}.
+handle_call(Request, From, State) ->
+    port_request(Request, State),
+    {noreply, State#{reply_to => From}}.
 
 handle_cast(_Msg, State) ->
     {noreply, State}.
 
+handle_info({Port, {data, Data}}, #{port := Port, reply_to := From}=State) ->
+    gen_server:reply(From, erlang:binary_to_term(Data)),
+    {noreply, State};
 handle_info(_Info, State) ->
     {noreply, State}.
 
@@ -69,10 +72,4 @@ port_path() ->
 
 port_request(Request, #{port := Port}) ->
     RequestEXT = erlang:term_to_binary(Request),
-    true = erlang:port_command(Port, RequestEXT),
-    receive
-        {Port, {data, Data}} ->
-            erlang:binary_to_term(Data)
-    after 5000 ->
-        throw({timeout, port_response})
-    end.
+    true = erlang:port_command(Port, RequestEXT).
