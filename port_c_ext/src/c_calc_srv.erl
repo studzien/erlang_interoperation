@@ -69,7 +69,7 @@ code_change(_OldVsn, State, _Extra) ->
 %%%===================================================================
 port_path() ->
     Dir = code:priv_dir(c_calc),
-    filename:join([Dir, "c_calc"]).
+    filename:join([Dir, "port_c_ext"]).
 
 port_request(Request, From, #{port := Port}) ->
     RequestEXT = erlang:term_to_binary({Request, From}),
