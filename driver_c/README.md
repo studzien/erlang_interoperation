@@ -24,11 +24,14 @@ To do
 
 Caveats
 -------
-- ``port_control`` port callback is weird. If the driver has set
-  ``set_port_control_flags(port, PORT_CONTROL_FLAG_BINARY)`` then the
-callbacks is expected to return ``ErlDrvBinary`` allocated via
+- ``port_control`` port callback is weird.
+If the driver has set ``set_port_control_flags(port, PORT_CONTROL_FLAG_BINARY)``
+then the callback is expected to return ``ErlDrvBinary`` allocated via
 ``driver_alloc_binary`` in the return buffer, but iff it exceeds the
-return buffer size passed by the caller. If flag is not set, the port is
+return buffer size passed by the caller.
+If flag is not set, the port is
 expected to return a ``char*`` allocated via ``driver_alloc``, also only
-if the buffer exceeds the original return buffer. In both cases,
-allocation is freed by port control logic inside the VM.
+if the buffer exceeds the original return buffer.
+In both cases, allocation is freed by port control logic inside the VM.
+The callback always does return the byte length, the port control logic
+recalculates it in case of ``ErlDrvBinary``.
