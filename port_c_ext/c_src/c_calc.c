@@ -77,9 +77,10 @@ void process_request(void* buf, int len) {
     assert(ei_x_encode_pid(&xbuff, &from_pid) == 0);
     assert(ei_x_encode_ref(&xbuff, &from_ref) == 0);
 
-    lenbuf[0] = (xbuff.buffsz << 8);
-    lenbuf[1] = (xbuff.buffsz & 0xff);
+    int n = xbuff.index;
+    lenbuf[0] = (n << 8);
+    lenbuf[1] = (n & 0xff);
     assert(write(1, lenbuf, 2) == 2);
-    assert(write(1, xbuff.buff, xbuff.buffsz) == xbuff.buffsz);
+    assert(write(1, xbuff.buff, n) == n);
     assert(ei_x_free(&xbuff) == 0);
 }
