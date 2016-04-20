@@ -1,0 +1,4 @@
+[{<<"erlexec">>,
+  {git,"https://github.com/saleyn/erlexec.git",
+       {ref,"d4d3fc9aa7f3630b1ef77e56040f59f6e5a51ef6"}},
+  0}].

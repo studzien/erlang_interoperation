@@ -1,0 +1,17 @@
+{application, erlexec_python_pb,
+ [{description, "An OTP application"},
+  {vsn, "0.1.0"},
+  {registered, []},
+  {mod, { erlexec_python_pb_app, []}},
+  {applications,
+   [kernel,
+    stdlib,
+    erlexec
+   ]},
+  {env,[]},
+  {modules, []},
+
+  {maintainers, []},
+  {licenses, []},
+  {links, []}
+ ]}.

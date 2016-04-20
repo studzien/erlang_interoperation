@@ -1,0 +1,18 @@
+package calc;
+
+message Calculation {
+    enum Operation {
+        add = 0;
+        sub = 1;
+        mul = 2;
+        div = 3;
+    }
+
+    required Operation operation = 1;
+    required int64 arg1 = 2;
+    required int64 arg2 = 3;
+}
+
+message Result {
+    required int64 result = 1;
+}
